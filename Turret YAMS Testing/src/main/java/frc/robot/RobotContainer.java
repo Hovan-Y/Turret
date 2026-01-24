@@ -8,10 +8,13 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.turret.TurretSubsystem;
+import frc.robot.subsystems.TurretSubsystem;
+import frc.robot.subsystems.turret.YAMgenTurretSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import static edu.wpi.first.units.Units.Degrees;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -22,7 +25,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final TurretSubsystem turretSubsystem = new TurretSubsystem();
+  private final YAMgenTurretSubsystem YAMgenturretSubsystem = new YAMgenTurretSubsystem();
+  private final TurretSubsystem TurretSubsystem = new TurretSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public static CommandXboxController driver =
@@ -50,10 +54,11 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    driver.povDown().whileTrue(turretSubsystem.stickRotation());
-    driver.a().onTrue(turretSubsystem.setAngleCommand(90));
-  }
+    // driver.povDown().whileTrue(YAMgenturretSubsystem.stickRotation());
+    // driver.a().onTrue(YAMgenturretSubsystem.setAngleCommand(90));
 
+    driver.a().onTrue(new InstantCommand(() -> TurretSubsystem.setAngle(Degrees.of(0))));    
+  }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *

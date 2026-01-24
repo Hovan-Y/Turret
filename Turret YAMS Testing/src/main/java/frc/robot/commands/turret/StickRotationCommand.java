@@ -5,15 +5,15 @@ import edu.wpi.first.wpilibj2.command.Command;
 //import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.turret.TurretSubsystem;
+import frc.robot.subsystems.turret.YAMgenTurretSubsystem;
 
 public class StickRotationCommand extends Command {
 
-    private final TurretSubsystem turretSubsystem;
+    private final YAMgenTurretSubsystem turretSubsystem;
 
     CommandXboxController driver = RobotContainer.driver;
     
-    public  StickRotationCommand(TurretSubsystem turretSubsystem) {
+    public  StickRotationCommand(YAMgenTurretSubsystem turretSubsystem) {
         this.turretSubsystem = turretSubsystem;
 
         addRequirements(turretSubsystem);

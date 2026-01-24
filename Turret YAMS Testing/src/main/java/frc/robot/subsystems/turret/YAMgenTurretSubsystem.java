@@ -21,6 +21,7 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotController;
@@ -36,7 +37,7 @@ import frc.robot.commands.turret.StickRotationCommand;
  * Pivot subsystem using SparkMAX with NEO motor
  */
 //@Logged(name = "ElevatorSubsystem")
-public class TurretSubsystem extends SubsystemBase {
+public class YAMgenTurretSubsystem extends SubsystemBase {
 
   // Constants
   private final DCMotor dcMotor = DCMotor.getNEO(1);
@@ -79,7 +80,7 @@ public class TurretSubsystem extends SubsystemBase {
   /**
    * Creates a new Pivot Subsystem.
    */
-  public TurretSubsystem() {
+  public YAMgenTurretSubsystem() {
     // Initialize motor controller
     SparkMaxConfig motorConfig = new SparkMaxConfig();
     motor = new SparkMax(canID, MotorType.kBrushless);
