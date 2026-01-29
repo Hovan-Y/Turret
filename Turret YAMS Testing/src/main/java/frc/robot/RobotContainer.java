@@ -57,7 +57,7 @@ public class RobotContainer {
     // driver.povDown().whileTrue(YAMgenturretSubsystem.stickRotation());
     // driver.a().onTrue(YAMgenturretSubsystem.setAngleCommand(90));
 
-    driver.a().onTrue(new InstantCommand(() -> TurretSubsystem.setAngle(Degrees.of(0))));    
+    driver.a().onTrue(new InstantCommand(() -> TurretSubsystem.setAngle(Degrees.of(0)))); 
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
