@@ -8,6 +8,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Superstructure;
 import frc.robot.subsystems.TurretSubsystem;
 import frc.robot.subsystems.turret.YAMgenTurretSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -27,6 +28,7 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final YAMgenTurretSubsystem YAMgenturretSubsystem = new YAMgenTurretSubsystem();
   private final TurretSubsystem TurretSubsystem = new TurretSubsystem();
+  private final Superstructure superstructure = new Superstructure(TurretSubsystem);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public static CommandXboxController driver =
@@ -57,7 +59,13 @@ public class RobotContainer {
     // driver.povDown().whileTrue(YAMgenturretSubsystem.stickRotation());
     // driver.a().onTrue(YAMgenturretSubsystem.setAngleCommand(90));
 
-    driver.a().onTrue(new InstantCommand(() -> TurretSubsystem.setAngle(Degrees.of(0)))); 
+    driver.a().whileTrue(
+      superstructure.stopAllCommand()
+    );
+
+    driver.povUp().onTrue(superstructure.setTurretForward().withName("OperatorControls.setTurretForward"));
+    driver.povLeft().onTrue(superstructure.setTurretLeft().withName("OperatorControls.setTurretLeft"));
+    driver.povRight().onTrue(superstructure.setTurretRight().withName("OperatorControls.setTurretRight"));
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
