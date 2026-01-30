@@ -75,10 +75,14 @@ public final class Constants {
 
   public static class IntakeConstants {
     public static int IntakeMotorID = 16;
-    public static int PivotMotorID = 0;
+    public static double INTAKE_SPEED = 1.0;
   }
 
   public static class FeederConstants {
     public static int FeederMotorID = 0;
+  }
+
+  public static class PivotConstants {
+    public static int PivotMotorID = 0;
   }
 }
