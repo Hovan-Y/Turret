@@ -39,7 +39,7 @@ public class HopperSubsystem extends SubsystemBase{
     .withIdleMode(MotorMode.BRAKE)
     .withStatorCurrentLimit(Amps.of(40));
 
-    private SmartMotorController smc = new SparkWrapper(hopperMotor, DCMotor.getNEO(4), smcConfig);
+    private SmartMotorController smc = new SparkWrapper(hopperMotor, DCMotor.getNEO(1), smcConfig);
 
     private final FlyWheelConfig hopperConfig = new FlyWheelConfig(smc)
     .withDiameter(Inches.of(10))

@@ -48,7 +48,7 @@ public class TurretSubsystem extends SubsystemBase{
     private final double MAX_ONE_DIR_FOV = 135; // degrees
     public final Translation3d turretTranslation = new Translation3d(-0.205, 0.0, 0.375);
 
-    private SparkMax spark = new SparkMax(Constants.TurretConstants.kMotorID, MotorType.kBrushless);
+    private SparkMax turretMotor = new SparkMax(Constants.TurretConstants.kMotorID, MotorType.kBrushless);
 
     private SmartMotorControllerConfig smcConfig = new SmartMotorControllerConfig(this)
     .withControlMode(ControlMode.CLOSED_LOOP)
@@ -71,7 +71,7 @@ public class TurretSubsystem extends SubsystemBase{
     .withClosedLoopRampRate(Seconds.of(0.25))
     .withOpenLoopRampRate(Seconds.of(0.25));
 
-    private SmartMotorController smc = new SparkWrapper(spark, DCMotor.getNeo550(1), smcConfig);
+    private SmartMotorController smc = new SparkWrapper(turretMotor, DCMotor.getNeo550(1), smcConfig);
 
     private final PivotConfig turretConfig = new PivotConfig(smc)
       .withHardLimit(Degrees.of(-MAX_ONE_DIR_FOV - 5), Degrees.of(MAX_ONE_DIR_FOV + 5))
