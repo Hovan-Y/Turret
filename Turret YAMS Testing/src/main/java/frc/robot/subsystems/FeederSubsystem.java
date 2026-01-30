@@ -43,7 +43,7 @@ public class FeederSubsystem extends SubsystemBase{
     .withMass(Pounds.of(0.5))
     .withUpperSoftLimit(RPM.of(6000))
     .withLowerSoftLimit(RPM.of(-6000))
-    .withTelemetry("Kicker", TelemetryVerbosity.HIGH);
+    .withTelemetry("Feeder", TelemetryVerbosity.HIGH);
 
     private FlyWheel feeder = new FlyWheel(feederConfig);
 

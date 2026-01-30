@@ -17,6 +17,7 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -56,14 +57,14 @@ public class TurretSubsystem extends SubsystemBase{
     .withClosedLoopController(TurretConstants.kP, TurretConstants.kI, TurretConstants.kD, TurretConstants.MAX_VELOCITY, TurretConstants.MAX_ACCELERATION)
     .withSimClosedLoopController(TurretConstants.kP, TurretConstants.kI, TurretConstants.kD, TurretConstants.MAX_VELOCITY, TurretConstants.MAX_ACCELERATION)
     // Feedforward Constants
-    .withFeedforward(new ArmFeedforward(TurretConstants.kS, TurretConstants.kG, TurretConstants.kV))
-    .withSimFeedforward(new ArmFeedforward(TurretConstants.kS, TurretConstants.kG, TurretConstants.kV))
+    .withFeedforward(new ArmFeedforward(TurretConstants.kS, TurretConstants.kG, TurretConstants.kV, TurretConstants.kA))
+    .withSimFeedforward(new ArmFeedforward(TurretConstants.kS, TurretConstants.kG, TurretConstants.kV, TurretConstants.kA))
     // Telemetry name and verbosity level
     .withTelemetry("ArmMotor", TelemetryVerbosity.HIGH)
     // Gearing from the motor rotor to final shaft.
     // In this example GearBox.fromReductionStages(3,4) is the same as GearBox.fromStages("3:1","4:1") which corresponds to the gearbox attached to your motor.
     // You could also use .withGearing(12) which does the same thing.
-    .withGearing(new MechanismGearing(GearBox.fromReductionStages(3, 4)))
+    .withGearing(new MechanismGearing(GearBox.fromReductionStages(10.75)))
     // Motor properties to prevent over currenting.
     .withMotorInverted(false)
     .withIdleMode(MotorMode.BRAKE)
@@ -112,17 +113,17 @@ public class TurretSubsystem extends SubsystemBase{
     }
 
     public Command sysId() {
-    return turret.sysId(Volts.of(7), Volts.of(2).per(Second), Seconds.of(10));
-  }
+        return turret.sysId(Volts.of(7), Volts.of(2).per(Second), Seconds.of(10));
+    }
 
-  @Override
-  public void periodic() {
-    turret.updateTelemetry();
-    
-    Logger.recordOutput("ASCalibration/FinalComponentPoses", new Pose3d[] {
-        new Pose3d(
-            turretTranslation,
-            new Rotation3d(0, 0, turret.getAngle().in(Radians)))
-    });
-  }
+    @Override
+    public void periodic() {
+        turret.updateTelemetry();
+        
+        Logger.recordOutput("ASCalibration/FinalComponentPoses", new Pose3d[] {
+            new Pose3d(
+                turretTranslation,
+                new Rotation3d(0, 0, turret.getAngle().in(Radians)))
+        });
+    }
 }

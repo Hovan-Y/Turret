@@ -53,8 +53,8 @@ public class PivotSubsystem extends SubsystemBase{
     .withSoftLimits(Degrees.of(0), Degrees.of(150))
     .withHardLimit(Degrees.of(0), Degrees.of(155))
     .withStartingPosition(Degrees.of(0))
-    .withLength(Feet.of(1)) //Ensure 
-    .withMass(Pounds.of(2)) 
+    .withLength(Feet.of(1)) //Ensure this is true
+    .withMass(Pounds.of(2)) //Ensure this is true
     .withTelemetry("Pivot", TelemetryVerbosity.HIGH);
 
     private Arm pivot = new Arm(pivotConfig);
