@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
 
 public class Superstructure extends SubsystemBase {
+    public final FeederSubsystem feeder;
     public final HopperSubsystem hopper;
     public final IntakeSubsystem intake;
     public final ShooterSubsystem shooter;
@@ -32,7 +33,8 @@ public class Superstructure extends SubsystemBase {
 
     private Translation3d aimPoint = Constants.AimPoints.RED_HUB.value;
 
-    public Superstructure(HopperSubsystem hopper, IntakeSubsystem intake, ShooterSubsystem shooter, TurretSubsystem turret) {
+    public Superstructure(FeederSubsystem feeder, HopperSubsystem hopper, IntakeSubsystem intake, ShooterSubsystem shooter, TurretSubsystem turret) {
+        this.feeder = feeder;
         this.shooter = shooter;
         this.turret = turret;
         this.intake = intake;
@@ -49,10 +51,36 @@ public class Superstructure extends SubsystemBase {
     this.isReadyToShoot = isShooterAtSpeed.and(isTurretOnTarget);
     }
 
+
     public Command stopAllCommand() {
         return Commands.parallel(
+            feeder.stopCommand().asProxy(),
+            hopper.stopCommand().asProxy(),
+            intake.stop().asProxy(),
             shooter.stop().asProxy(),
-            turret.set(0).asProxy())
-            .withName("Superstructure.stopAll");
+            turret.set(0)
+        ).withName("Superstructure.stopAll");
     }
+    /*
+     * Stops Shooter and Turret movement
+     */
+    public Command stopShootingCommand() {
+        return Commands.parallel(
+            shooter.stop().asProxy(),
+            turret.set(0).asProxy()
+        ).withName("Superstructure.StopShooting");
+    }
+
+    public Command stopFeedingCommand() {
+        return Commands.parallel(
+            feeder.stopCommand().asProxy(),
+            hopper.stopCommand().asProxy()
+        );
+    }
+
+    public Command stopIntakeCommand() {
+        return intake.stop();
+    }
+
+    
 }
