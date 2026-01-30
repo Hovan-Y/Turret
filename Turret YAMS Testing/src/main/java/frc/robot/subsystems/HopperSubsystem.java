@@ -52,15 +52,15 @@ public class HopperSubsystem extends SubsystemBase{
 
     public HopperSubsystem() {}
 
-    public Command feedCommand() {
+    public Command feed() {
         return hopper.set(HOPPER_SPEED).finallyDo(() -> smc.setDutyCycle(0)).withName("Hopper.Feed");
     }
 
-    public Command backFeedCommand() {
+    public Command backFeed() {
         return hopper.set(-HOPPER_SPEED).finallyDo(() -> smc.setDutyCycle(0)).withName("Hopper.BackFeed");
     }
 
-    public Command stopCommand() {
+    public Command stop() {
         return hopper.set(0).withName("Hopper.Stop");
     }
 

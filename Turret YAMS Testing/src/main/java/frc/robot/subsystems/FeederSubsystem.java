@@ -47,14 +47,18 @@ public class FeederSubsystem extends SubsystemBase{
 
     private FlyWheel feeder = new FlyWheel(feederConfig);
 
-    public Command feedCommand() {
+    public Command feed() {
         return feeder.set(FEEDER_SPEED).finallyDo(() -> smc.setDutyCycle(0)).withName("Feeder.Feed");
+    }
+
+    public Command backFeed() {
+        return feeder.set(-FEEDER_SPEED).finallyDo(() -> smc.setDutyCycle(0)).withName("Feeder.Backfeed");
     }
 
     /**
      * Command to stop the kicker.
      */
-    public Command stopCommand() {
+    public Command stop() {
         return feeder.set(0).withName("Feeder.Stop");
     }
 
