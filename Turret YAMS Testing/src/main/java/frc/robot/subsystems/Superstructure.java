@@ -16,6 +16,7 @@ public class Superstructure extends SubsystemBase {
     public final FeederSubsystem feeder;
     public final HopperSubsystem hopper;
     public final IntakeSubsystem intake;
+    public final PivotSubsystem pivot;
     public final ShooterSubsystem shooter;
     public final TurretSubsystem turret;
 
@@ -33,29 +34,30 @@ public class Superstructure extends SubsystemBase {
 
     private Translation3d aimPoint = Constants.AimPoints.RED_HUB.value;
 
-    public Superstructure(FeederSubsystem feeder, HopperSubsystem hopper, IntakeSubsystem intake, ShooterSubsystem shooter, TurretSubsystem turret) {
+    public Superstructure(FeederSubsystem feeder, HopperSubsystem hopper, IntakeSubsystem intake, PivotSubsystem pivot, ShooterSubsystem shooter, TurretSubsystem turret) {
         this.feeder = feeder;
-        this.shooter = shooter;
-        this.turret = turret;
         this.intake = intake;
         this.hopper = hopper;
+        this.pivot = pivot;
+        this.shooter = shooter;
+        this.turret = turret;
 
         // Create triggers for checking if mechanisms are at their targets
-    this.isShooterAtSpeed = new Trigger(
-        () -> Math.abs(shooter.getSpeed().in(RPM) - targetShooterSpeed.in(RPM)) < SHOOTER_TOLERANCE.in(RPM));
+        this.isShooterAtSpeed = new Trigger(
+            () -> Math.abs(shooter.getSpeed().in(RPM) - targetShooterSpeed.in(RPM)) < SHOOTER_TOLERANCE.in(RPM));
 
-    this.isTurretOnTarget = new Trigger(
-        () -> Math.abs(turret.getRawAngle().in(Degrees) - targetTurretAngle.in(Degrees)) < TURRET_TOLERANCE
-            .in(Degrees));
+        this.isTurretOnTarget = new Trigger(
+            () -> Math.abs(turret.getRawAngle().in(Degrees) - targetTurretAngle.in(Degrees)) < TURRET_TOLERANCE
+                .in(Degrees));
 
-    this.isReadyToShoot = isShooterAtSpeed.and(isTurretOnTarget);
+        this.isReadyToShoot = isShooterAtSpeed.and(isTurretOnTarget);
     }
 
 
     public Command stopAllCommand() {
         return Commands.parallel(
-            feeder.stopCommand().asProxy(),
-            hopper.stopCommand().asProxy(),
+            feeder.stop().asProxy(),
+            hopper.stop().asProxy(),
             intake.stop().asProxy(),
             shooter.stop().asProxy(),
             turret.set(0)
@@ -68,18 +70,79 @@ public class Superstructure extends SubsystemBase {
         return Commands.parallel(
             shooter.stop().asProxy(),
             turret.set(0).asProxy()
-        ).withName("Superstructure.StopShooting");
+        ).withName("Superstructure.stopShooting");
     }
 
     public Command stopFeedingCommand() {
         return Commands.parallel(
-            feeder.stopCommand().asProxy(),
-            hopper.stopCommand().asProxy()
+            feeder.stop().asProxy(),
+            hopper.stop().asProxy()
+        ).withName("Superstructure.stopFeeding");
+    }
+
+    public Command feedAllCommand() {
+        return Commands.parallel(
+            feeder.feed(),
+            hopper.feed()
         );
+    }
+
+    public Command backfeedAllCommand() {
+        return Commands.parallel(
+            hopper.backFeed(),
+            intake.eject()
+        ).withName("Superstructure.backFeedAll");
+    }
+
+    /**
+     * Aims the superstructure to specific targets - used for auto-targeting.
+     *
+     * @param shooterSpeed Target shooter speed
+     * @param turretAngle  Target turret angle
+     */
+    public Command aimCommand(AngularVelocity shooterSpeed, Angle turretAngle) {
+        return Commands.runOnce(() -> {
+        targetShooterSpeed = shooterSpeed;
+        targetTurretAngle = turretAngle;
+        
+        }).andThen(
+            Commands.parallel(
+                // shooter.setSpeed(shooterSpeed).asProxy(),
+                turret.setAngle(turretAngle).asProxy()
+                ))
+            .withName("Superstructure.aim");
     }
 
     public Command stopIntakeCommand() {
         return intake.stop();
+    }
+
+    public Command intakeCommand() {
+        return intake.intake();
+    }
+
+    public Command ejectCommand() {
+        return intake.eject();
+    }
+
+    public Command deployIntake() {//TODO : Change the Magnitude to match our robot
+        return pivot.setAngle(Degrees.of(150));
+    }
+
+    public Command stowIntake() {//TODO : Ensure the Magnitude to match our robot
+        return pivot.setAngle(Degrees.of(0));
+    }
+
+    public Command setTurretForward() {
+        return turret.setAngle(Degrees.of(0)).withName("Superstructure.setTurretForward");
+    }
+
+    public Command setTurretLeft() {
+        return turret.setAngle(Degrees.of(45)).withName("Superstructure.setTurretLeft");
+    }
+
+    public Command setTurretRight() {
+        return turret.setAngle(Degrees.of(-45)).withName("Superstructure.setTurretRight");
     }
 
     
