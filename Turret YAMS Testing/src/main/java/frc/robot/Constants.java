@@ -72,4 +72,9 @@ public final class Constants {
     public static double speed = 0.0;
     public static int HopperMotorID = 1;
   }
+
+  public static class IntakeConstants {
+    public static int IntakeMotorID = 16;
+    public static int PivotMotorID = 0;
+  }
 }
