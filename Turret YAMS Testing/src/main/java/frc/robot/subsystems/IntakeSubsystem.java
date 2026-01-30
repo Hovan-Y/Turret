@@ -43,7 +43,7 @@ public class IntakeSubsystem extends SubsystemBase{
 
     private SmartMotorControllerConfig intakeSMCConfig = new SmartMotorControllerConfig(this)
     .withControlMode(ControlMode.OPEN_LOOP)
-    .withTelemetry("IntakeRollerMotor", TelemetryVerbosity.HIGH)
+    .withTelemetry("IntakeMotor", TelemetryVerbosity.HIGH)
     .withGearing(new MechanismGearing(GearBox.fromReductionStages(1))) // Direct drive, adjust if geared
     .withMotorInverted(true)
     .withIdleMode(MotorMode.COAST)
@@ -56,7 +56,7 @@ public class IntakeSubsystem extends SubsystemBase{
     .withMass(Pounds.of(0.5))
     .withUpperSoftLimit(RPM.of(6000))
     .withLowerSoftLimit(RPM.of(-6000))
-    .withTelemetry("IntakeRoller", TelemetryVerbosity.HIGH);
+    .withTelemetry("Intake", TelemetryVerbosity.HIGH);
 
     private FlyWheel intake = new FlyWheel(intakeConfig);
 
@@ -64,7 +64,7 @@ public class IntakeSubsystem extends SubsystemBase{
     .withControlMode(ControlMode.CLOSED_LOOP)
     .withClosedLoopController(25, 0, 0, DegreesPerSecond.of(360), DegreesPerSecondPerSecond.of(360))
     .withFeedforward(new SimpleMotorFeedforward(0, 10, 0))
-    .withTelemetry("IntakePivotMotor", TelemetryVerbosity.HIGH)
+    .withTelemetry("PivotMotor", TelemetryVerbosity.HIGH)
     .withGearing(new MechanismGearing(GearBox.fromReductionStages(5, 5, 60.0 / 18.0)))//TODO: set to whatever Gear ratio we have
     .withMotorInverted(false)
     .withIdleMode(MotorMode.COAST)
@@ -81,7 +81,7 @@ public class IntakeSubsystem extends SubsystemBase{
     .withStartingPosition(Degrees.of(0))
     .withLength(Feet.of(1))
     .withMass(Pounds.of(2)) // Reis says: 2 pounds, not a lot
-    .withTelemetry("IntakePivot", TelemetryVerbosity.HIGH);
+    .withTelemetry("Pivot", TelemetryVerbosity.HIGH);
 
     private Arm pivot = new Arm(pivotConfig);
 
@@ -99,11 +99,11 @@ public class IntakeSubsystem extends SubsystemBase{
     }
 
     public Command setPivotAngle(Angle angle) {
-        return pivot.setAngle(angle).withName("IntakePivot.SetAngle");
+        return pivot.setAngle(angle).withName("Pivot.SetAngle");
     }
 
     public Command rezero() {
-        return Commands.runOnce(() -> pivotMotor.getEncoder().setPosition(0), this).withName("IntakePivot.Rezero");
+        return Commands.runOnce(() -> pivotMotor.getEncoder().setPosition(0), this).withName("Pivot.Rezero");
     }
 
     /**

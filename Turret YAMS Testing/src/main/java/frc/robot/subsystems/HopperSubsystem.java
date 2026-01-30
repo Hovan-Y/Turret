@@ -34,7 +34,7 @@ public class HopperSubsystem extends SubsystemBase{
     private SmartMotorControllerConfig smcConfig = new SmartMotorControllerConfig(this)
     .withControlMode(ControlMode.OPEN_LOOP)
     .withTelemetry("HopperMotor", TelemetryVerbosity.HIGH)
-    .withGearing(new MechanismGearing(GearBox.fromReductionStages(1)))
+    .withGearing(new MechanismGearing(GearBox.fromReductionStages(5))) //5:1 gear Ratio
     .withMotorInverted(true)
     .withIdleMode(MotorMode.BRAKE)
     .withStatorCurrentLimit(Amps.of(40));
