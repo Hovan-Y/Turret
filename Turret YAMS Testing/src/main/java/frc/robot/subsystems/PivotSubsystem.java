@@ -36,9 +36,14 @@ public class PivotSubsystem extends SubsystemBase{
 
     private SmartMotorControllerConfig PivotSMCConfig = new SmartMotorControllerConfig() //TODO : Configure to whatever motor used
     .withControlMode(ControlMode.CLOSED_LOOP)
+    //Feedback Constants (PID) TODO : Tune these values and move them to Constants
     .withClosedLoopController(25, 0, 0, DegreesPerSecond.of(360), DegreesPerSecondPerSecond.of(360))
+    .withSimClosedLoopController(25, 0, 0, DegreesPerSecond.of(360), DegreesPerSecondPerSecond.of(360))
+    //Feedforward Constants TODO : Tune these values and move them to Constants
     .withFeedforward(new SimpleMotorFeedforward(0, 10, 0))
+    .withSimFeedforward(new SimpleMotorFeedforward(0, 0, 0))
     .withTelemetry("PivotMotor", TelemetryVerbosity.HIGH)
+    //Gearing TODO : Change Values to match our robots
     .withGearing(new MechanismGearing(GearBox.fromReductionStages(5, 5, 60.0 / 18.0)))
     .withMotorInverted(false)
     .withIdleMode(MotorMode.COAST)
