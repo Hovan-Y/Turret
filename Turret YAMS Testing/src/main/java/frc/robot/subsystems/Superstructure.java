@@ -53,6 +53,51 @@ public class Superstructure extends SubsystemBase {
         this.isReadyToShoot = isShooterAtSpeed.and(isTurretOnTarget);
     }
 
+    public Command setTurretForward() {
+        return turret.setAngle(Degrees.of(0)).withName("Superstructure.setTurretForward");
+    }
+
+    public Command setTurretLeft() {
+        return turret.setAngle(Degrees.of(45)).withName("Superstructure.setTurretLeft");
+    }
+
+    public Command setTurretRight() {
+        return turret.setAngle(Degrees.of(-45)).withName("Superstructure.setTurretRight");
+    }
+
+    public Command stopIntake() {
+        return intake.stop();
+    }
+
+    public Command intake() {
+        return intake.intake();
+    }
+
+    public Command eject() {
+        return intake.eject();
+    }
+
+    public Command deployIntake() {//TODO : Change the Magnitude to match our robot
+        return pivot.setAngle(Constants.PivotConstants.deployAngle);
+    }
+
+    public Command stowIntake() {
+        return pivot.setAngle(Constants.PivotConstants.stowAngle);
+    }
+
+    public Command stopAndStowIntake() {//TODO : Ensure the Magnitude to match our robot
+        return Commands.parallel(
+            stopIntake(),
+            stowIntake()
+        );   
+    }
+
+    public Command deployAndBeginIntake() {
+        return Commands.sequence(
+            deployIntake(),
+            intake()
+        );
+    }
 
     public Command stopAllCommand() {
         return Commands.parallel(
@@ -84,66 +129,15 @@ public class Superstructure extends SubsystemBase {
         return Commands.parallel(
             feeder.feed(),
             hopper.feed()
-        );
+        ).withName("Superstructure.feedAll");
     }
 
     public Command backfeedAllCommand() {
         return Commands.parallel(
+            feeder.backFeed(),
             hopper.backFeed(),
             intake.eject()
         ).withName("Superstructure.backFeedAll");
     }
-
-    /**
-     * Aims the superstructure to specific targets - used for auto-targeting.
-     *
-     * @param shooterSpeed Target shooter speed
-     * @param turretAngle  Target turret angle
-     */
-    public Command aimCommand(AngularVelocity shooterSpeed, Angle turretAngle) {
-        return Commands.runOnce(() -> {
-        targetShooterSpeed = shooterSpeed;
-        targetTurretAngle = turretAngle;
-        
-        }).andThen(
-            Commands.parallel(
-                // shooter.setSpeed(shooterSpeed).asProxy(),
-                turret.setAngle(turretAngle).asProxy()
-                ))
-            .withName("Superstructure.aim");
-    }
-
-    public Command stopIntakeCommand() {
-        return intake.stop();
-    }
-
-    public Command intakeCommand() {
-        return intake.intake();
-    }
-
-    public Command ejectCommand() {
-        return intake.eject();
-    }
-
-    public Command deployIntake() {//TODO : Change the Magnitude to match our robot
-        return pivot.setAngle(Degrees.of(150));
-    }
-
-    public Command stowIntake() {//TODO : Ensure the Magnitude to match our robot
-        return pivot.setAngle(Degrees.of(0));
-    }
-
-    public Command setTurretForward() {
-        return turret.setAngle(Degrees.of(0)).withName("Superstructure.setTurretForward");
-    }
-
-    public Command setTurretLeft() {
-        return turret.setAngle(Degrees.of(45)).withName("Superstructure.setTurretLeft");
-    }
-
-    public Command setTurretRight() {
-        return turret.setAngle(Degrees.of(-45)).withName("Superstructure.setTurretRight");
-    }
-
-    
+    //TODO : ADD MORE COMMANDS
 }
