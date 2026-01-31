@@ -6,9 +6,12 @@ import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Pounds;
 import static edu.wpi.first.units.Units.RPM;
 
+import java.util.function.Supplier;
+
 import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -55,8 +58,16 @@ public class FeederSubsystem extends SubsystemBase{
         return feeder.set(-FEEDER_SPEED).finallyDo(() -> smc.setDutyCycle(0)).withName("Feeder.Backfeed");
     }
 
+    public Command feedRPM(int rpm) {
+        return feeder.setSpeed(RPM.of(rpm));
+    }
+
+    public Command feedDynamic(Supplier<AngularVelocity> speed) {
+        return feeder.setSpeed(speed);
+    }
+
     /**
-     * Command to stop the kicker.
+     * Command to stop the feeder.
      */
     public Command stop() {
         return feeder.set(0).withName("Feeder.Stop");

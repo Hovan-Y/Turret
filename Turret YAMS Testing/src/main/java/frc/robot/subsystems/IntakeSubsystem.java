@@ -57,8 +57,8 @@ public class IntakeSubsystem extends SubsystemBase{
         return intake.set(cycle).withName("Intake.setDuty");
     }
 
-    public Command setSpeed(AngularVelocity speed) {
-        return intake.setSpeed(speed).withName("intake.setSpeed");
+    public Command setSpeed(double speed) {
+        return intake.setSpeed(RPM.of(speed)).withName("intake.setSpeed");
     }
 
     public Command setSpeedDynamic(Supplier<AngularVelocity> speedSupplier){
@@ -66,15 +66,15 @@ public class IntakeSubsystem extends SubsystemBase{
     }
 
     public Command stop() {
-        return intake.setSpeed(RPM.of(0));
+        return intake.set(0);
     }
 
     public Command intake() {
-        return intake.set(Constants.IntakeConstants.INTAKE_SPEED).finallyDo(() -> smc.setDutyCycle(0));
+        return setSpeed(Constants.IntakeConstants.INTAKE_SPEED).finallyDo(() -> stop());
     }
     
     public Command eject() {
-        return intake.set(-Constants.IntakeConstants.INTAKE_SPEED).finallyDo(() -> smc.setDutyCycle(0));
+        return setSpeed(-Constants.IntakeConstants.INTAKE_SPEED).finallyDo(() -> stop());
     }
 
     @Override

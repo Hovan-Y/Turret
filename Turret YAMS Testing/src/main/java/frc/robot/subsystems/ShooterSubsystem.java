@@ -26,7 +26,7 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import frc.robot.Constants;
 import yams.gearing.GearBox;
 import yams.gearing.MechanismGearing;
 import yams.mechanisms.config.FlyWheelConfig;
@@ -39,13 +39,16 @@ import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
 import yams.motorcontrollers.local.SparkWrapper;
 
 public class ShooterSubsystem extends SubsystemBase{
-    private final SparkFlex leaderMotor = new SparkFlex(51, MotorType.kBrushless);
-    private final SparkFlex followerMotor = new SparkFlex(52, MotorType.kBrushless);
+    private final SparkFlex leaderMotor = new SparkFlex(Constants.ShooterConstants.leaderMotor, MotorType.kBrushless);
+    private final SparkFlex followerMotor = new SparkFlex(Constants.ShooterConstants.followerMotor, MotorType.kBrushless);
 
     private final SmartMotorControllerConfig smcConfig = new SmartMotorControllerConfig(this)
     .withFollowers(Pair.of(followerMotor, true))
     .withControlMode(ControlMode.CLOSED_LOOP)
+    // Feedback Constants (PID Constants) TODO : Tune PID Values (Go to Constants)
     .withClosedLoopController(0.00936, 0, 0)
+    .withSimClosedLoopController(0.00936, 0, 0)
+    // Feedforward Constants TODO : Tune Feedforward Values (Go to Constants)
     .withFeedforward(new SimpleMotorFeedforward(0.191, 0.11858, 0.0))
     .withTelemetry("ShooterMotor", TelemetryVerbosity.HIGH)
     .withGearing(new MechanismGearing(GearBox.fromReductionStages(1)))

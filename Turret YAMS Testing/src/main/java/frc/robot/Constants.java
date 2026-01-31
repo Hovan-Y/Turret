@@ -4,10 +4,12 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.DegreesPerSecond;
 import static edu.wpi.first.units.Units.DegreesPerSecondPerSecond;
 
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularAcceleration;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -69,14 +71,23 @@ public final class Constants {
     public static final AngularAcceleration MAX_ACCELERATION = DegreesPerSecondPerSecond.of(45);
   }
 
+  public static class ShooterConstants {
+    public static final int leaderMotor = 51;
+    public static final int followerMotor = 52;
+
+    public static final double kP = 0.00936;
+  }
+
   public static class HopperConstants {
-    public static double speed = 0.0;
+    public static double speed = 30.0; //RPM
+
     public static int HopperMotorID = 1;
   }
 
   public static class IntakeConstants {
     public static int IntakeMotorID = 16;
-    public static double INTAKE_SPEED = 1.0;
+
+    public static double INTAKE_SPEED = 60; //RPM
   }
 
   public static class FeederConstants {
@@ -85,5 +96,8 @@ public final class Constants {
 
   public static class PivotConstants {
     public static int PivotMotorID = 0;
+
+    public static Angle stowAngle = Degrees.of(0);
+    public static Angle deployAngle = Degrees.of(150);
   }
 }

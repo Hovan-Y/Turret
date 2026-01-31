@@ -6,10 +6,13 @@ import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Pounds;
 import static edu.wpi.first.units.Units.RPM;
 
+import java.util.function.Supplier;
+
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -26,8 +29,6 @@ import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
 import yams.motorcontrollers.local.SparkWrapper;
 
 public class HopperSubsystem extends SubsystemBase{
-    private static final double HOPPER_SPEED = 0.1;
-    
     private SparkMax hopperMotor = new SparkMax(Constants.HopperConstants.HopperMotorID, MotorType.kBrushless);
 
     private SmartMotorControllerConfig smcConfig = new SmartMotorControllerConfig(this)
@@ -51,16 +52,24 @@ public class HopperSubsystem extends SubsystemBase{
 
     public HopperSubsystem() {}
 
-    public Command feed() {
-        return hopper.set(HOPPER_SPEED).finallyDo(() -> smc.setDutyCycle(0)).withName("Hopper.Feed");
+    public Command feedRPM(double speed) {
+        return hopper.setSpeed(RPM.of(speed)).withName("Hopper.feedRPM");
     }
 
-    public Command backFeed() {
-        return hopper.set(-HOPPER_SPEED).finallyDo(() -> smc.setDutyCycle(0)).withName("Hopper.BackFeed");
+    public Command feedDynamic(Supplier<AngularVelocity> speed) {
+        return hopper.setSpeed(speed).withName("Hopper.feedDynamic");
     }
 
     public Command stop() {
         return hopper.set(0).withName("Hopper.Stop");
+    }
+
+    public Command feed() {
+        return feedRPM(Constants.HopperConstants.speed).finallyDo(() -> stop()).withName("Hopper.Feed");
+    }
+
+    public Command backFeed() {
+        return feedRPM(-Constants.HopperConstants.speed).finallyDo(() -> stop()).withName("Hopper.BackFeed");
     }
 
     @Override

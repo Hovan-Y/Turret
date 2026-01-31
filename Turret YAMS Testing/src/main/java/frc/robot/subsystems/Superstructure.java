@@ -32,7 +32,7 @@ public class Superstructure extends SubsystemBase {
     private AngularVelocity targetShooterSpeed = RPM.of(0);
     private Angle targetTurretAngle = Degrees.of(0);
 
-    private Translation3d aimPoint = Constants.AimPoints.RED_HUB.value;
+    private Translation3d aimPoint = Constants.AimPoints.getAllianceHubPosition();
 
     public Superstructure(FeederSubsystem feeder, HopperSubsystem hopper, IntakeSubsystem intake, PivotSubsystem pivot, ShooterSubsystem shooter, TurretSubsystem turret) {
         this.feeder = feeder;
@@ -105,7 +105,7 @@ public class Superstructure extends SubsystemBase {
             hopper.stop().asProxy(),
             intake.stop().asProxy(),
             shooter.stop().asProxy(),
-            turret.set(0)
+            turret.stop().asProxy()
         ).withName("Superstructure.stopAll");
     }
     /*
@@ -114,7 +114,7 @@ public class Superstructure extends SubsystemBase {
     public Command stopShootingCommand() {
         return Commands.parallel(
             shooter.stop().asProxy(),
-            turret.set(0).asProxy()
+            turret.stop().asProxy()
         ).withName("Superstructure.stopShooting");
     }
 
@@ -127,16 +127,16 @@ public class Superstructure extends SubsystemBase {
 
     public Command feedAllCommand() {
         return Commands.parallel(
-            feeder.feed(),
-            hopper.feed()
+            feeder.feed().asProxy(),
+            hopper.feed().asProxy()
         ).withName("Superstructure.feedAll");
     }
 
     public Command backfeedAllCommand() {
         return Commands.parallel(
-            feeder.backFeed(),
-            hopper.backFeed(),
-            intake.eject()
+            feeder.backFeed().asProxy(),
+            hopper.backFeed().asProxy(),
+            intake.eject().asProxy()
         ).withName("Superstructure.backFeedAll");
     }
     //TODO : ADD MORE COMMANDS
