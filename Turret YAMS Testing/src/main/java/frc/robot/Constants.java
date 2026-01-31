@@ -92,6 +92,8 @@ public final class Constants {
 
   public static class FeederConstants {
     public static int FeederMotorID = 0;
+
+    public static double FEEDER_SPEED = 30.0; //RPM
   }
 
   public static class PivotConstants {

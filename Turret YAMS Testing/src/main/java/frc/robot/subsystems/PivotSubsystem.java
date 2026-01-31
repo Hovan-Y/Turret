@@ -74,6 +74,14 @@ public class PivotSubsystem extends SubsystemBase{
         return pivot.setAngle(angleSupplier).withName("Pivot.SetAngleDynamic");
     }
 
+    public Command deployIntake() {//TODO : Change the Magnitude to match our robot
+        return pivot.setAngle(Constants.PivotConstants.deployAngle);
+    }
+
+    public Command stowIntake() {
+        return pivot.setAngle(Constants.PivotConstants.stowAngle);
+    }
+
     @Override
     public void periodic() {
         pivot.updateTelemetry();

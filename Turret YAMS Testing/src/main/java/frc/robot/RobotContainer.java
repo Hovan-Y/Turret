@@ -52,7 +52,8 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    driver.a().whileTrue(superstructure.intake());
+    driver.a().whileTrue(intake.intake());
+    driver.leftTrigger().onTrue(superstructure.deployAndStartIntake());
 
     driver.povLeft().onTrue(superstructure.setTurretLeft());
     driver.povUp().onTrue(superstructure.setTurretForward());

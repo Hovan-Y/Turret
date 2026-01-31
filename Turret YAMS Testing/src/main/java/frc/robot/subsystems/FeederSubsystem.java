@@ -27,8 +27,6 @@ import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
 import yams.motorcontrollers.local.SparkWrapper;
 
 public class FeederSubsystem extends SubsystemBase{
-    private static final double FEEDER_SPEED = 1.0;
-
     private SparkMax feederMotor = new SparkMax(Constants.FeederConstants.FeederMotorID, null);
     
     private SmartMotorControllerConfig smcConfig = new SmartMotorControllerConfig(this)
@@ -50,27 +48,24 @@ public class FeederSubsystem extends SubsystemBase{
 
     private FlyWheel feeder = new FlyWheel(feederConfig);
 
-    public Command feed() {
-        return feeder.set(FEEDER_SPEED).finallyDo(() -> smc.setDutyCycle(0)).withName("Feeder.Feed");
-    }
-
-    public Command backFeed() {
-        return feeder.set(-FEEDER_SPEED).finallyDo(() -> smc.setDutyCycle(0)).withName("Feeder.Backfeed");
-    }
-
-    public Command feedRPM(int rpm) {
+    public Command setSpeed(double rpm) {
         return feeder.setSpeed(RPM.of(rpm));
     }
 
-    public Command feedDynamic(Supplier<AngularVelocity> speed) {
+    public Command setSpeedDynamic(Supplier<AngularVelocity> speed) {
         return feeder.setSpeed(speed);
     }
 
-    /**
-     * Command to stop the feeder.
-     */
     public Command stop() {
         return feeder.set(0).withName("Feeder.Stop");
+    }
+
+    public Command feed() {
+        return setSpeed(Constants.FeederConstants.FEEDER_SPEED).finallyDo(() -> stop()).withName("Feeder.Feed");
+    }
+
+    public Command backFeed() {
+        return feeder.set(-Constants.FeederConstants.FEEDER_SPEED).finallyDo(() -> stop()).withName("Feeder.Backfeed");
     }
 
     @Override

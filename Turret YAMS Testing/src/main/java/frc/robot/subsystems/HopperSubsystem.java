@@ -52,11 +52,11 @@ public class HopperSubsystem extends SubsystemBase{
 
     public HopperSubsystem() {}
 
-    public Command feedRPM(double speed) {
+    public Command setSpeed(double speed) {
         return hopper.setSpeed(RPM.of(speed)).withName("Hopper.feedRPM");
     }
 
-    public Command feedDynamic(Supplier<AngularVelocity> speed) {
+    public Command setSpeedDynamic(Supplier<AngularVelocity> speed) {
         return hopper.setSpeed(speed).withName("Hopper.feedDynamic");
     }
 
@@ -65,11 +65,11 @@ public class HopperSubsystem extends SubsystemBase{
     }
 
     public Command feed() {
-        return feedRPM(Constants.HopperConstants.speed).finallyDo(() -> stop()).withName("Hopper.Feed");
+        return setSpeed(Constants.HopperConstants.speed).finallyDo(() -> stop()).withName("Hopper.Feed");
     }
 
     public Command backFeed() {
-        return feedRPM(-Constants.HopperConstants.speed).finallyDo(() -> stop()).withName("Hopper.BackFeed");
+        return setSpeed(-Constants.HopperConstants.speed).finallyDo(() -> stop()).withName("Hopper.BackFeed");
     }
 
     @Override

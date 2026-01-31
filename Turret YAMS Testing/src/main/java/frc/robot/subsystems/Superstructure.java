@@ -65,38 +65,12 @@ public class Superstructure extends SubsystemBase {
         return turret.setAngle(Degrees.of(-45)).withName("Superstructure.setTurretRight");
     }
 
+    public Command startIntake() {
+        return intake.intake().withName("Superstructure.startIntake");
+    }
+
     public Command stopIntake() {
-        return intake.stop();
-    }
-
-    public Command intake() {
-        return intake.intake();
-    }
-
-    public Command eject() {
-        return intake.eject();
-    }
-
-    public Command deployIntake() {//TODO : Change the Magnitude to match our robot
-        return pivot.setAngle(Constants.PivotConstants.deployAngle);
-    }
-
-    public Command stowIntake() {
-        return pivot.setAngle(Constants.PivotConstants.stowAngle);
-    }
-
-    public Command stopAndStowIntake() {//TODO : Ensure the Magnitude to match our robot
-        return Commands.parallel(
-            stopIntake(),
-            stowIntake()
-        );   
-    }
-
-    public Command deployAndBeginIntake() {
-        return Commands.sequence(
-            deployIntake(),
-            intake()
-        );
+        return intake.stop().withName("Superstructure.stopIntake");
     }
 
     public Command stopAllCommand() {
@@ -139,5 +113,21 @@ public class Superstructure extends SubsystemBase {
             intake.eject().asProxy()
         ).withName("Superstructure.backFeedAll");
     }
+
+    public Command stopAndStowIntake() {
+        return Commands.sequence(
+            intake.stop(),
+            pivot.stowIntake()
+        ).withName("Superstructure.stopAndStowIntake");
+    }
+
+    public Command deployAndStartIntake() {
+        return Commands.sequence(
+            pivot.deployIntake(),
+            intake.intake()
+        ).withName("SuperStructure.deployAndStartIntake");
+    }
+
+
     //TODO : ADD MORE COMMANDS
 }
