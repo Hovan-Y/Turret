@@ -5,6 +5,13 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.subsystems.FeederSubsystem;
+import frc.robot.subsystems.HopperSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.PivotSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.Superstructure;
+import frc.robot.subsystems.TurretSubsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -16,7 +23,14 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  
+  FeederSubsystem feeder = new FeederSubsystem();
+  HopperSubsystem hopper = new HopperSubsystem();
+  IntakeSubsystem intake = new IntakeSubsystem();
+  PivotSubsystem pivot = new PivotSubsystem();
+  ShooterSubsystem shooter = new ShooterSubsystem();
+  TurretSubsystem turret = new TurretSubsystem();
+
+  Superstructure superstructure = new Superstructure(feeder, hopper, intake, pivot, shooter, turret);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public static CommandXboxController driver =
@@ -38,7 +52,11 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    
+    driver.a().whileTrue(superstructure.intake());
+
+    driver.povLeft().onTrue(superstructure.setTurretLeft());
+    driver.povUp().onTrue(superstructure.setTurretForward());
+    driver.povRight().onTrue(superstructure.setTurretRight());
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
