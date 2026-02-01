@@ -50,16 +50,18 @@ public class ShooterSubsystem extends SubsystemBase{
     .withSimClosedLoopController(0.00936, 0, 0)
     // Feedforward Constants TODO : Tune Feedforward Values (Go to Constants)
     .withFeedforward(new SimpleMotorFeedforward(0.191, 0.11858, 0.0))
+    .withSimFeedforward(new SimpleMotorFeedforward(0.191, 0.11858, 0.0))
     .withTelemetry("ShooterMotor", TelemetryVerbosity.HIGH)
+    //Gearing TODO: Ensure our Gearing matches these values
     .withGearing(new MechanismGearing(GearBox.fromReductionStages(1)))
     .withMotorInverted(false)
-    .withIdleMode(MotorMode.COAST)
+    .withIdleMode(MotorMode.COAST)//TODO : Change if nessicary (COAST/BRAKE)
     .withStatorCurrentLimit(Amps.of(40));
 
     private final SmartMotorController smc = new SparkWrapper(leaderMotor, DCMotor.getNeoVortex(2), smcConfig);
 
     private final FlyWheelConfig shooterConfig = new FlyWheelConfig(smc)
-    .withDiameter(Inches.of(4))
+    .withDiameter(Inches.of(4))//TODO : Tune Values to match our robot's build
     .withMass(Pounds.of(1))
     .withUpperSoftLimit(RPM.of(6000))
     .withLowerSoftLimit(RPM.of(0))

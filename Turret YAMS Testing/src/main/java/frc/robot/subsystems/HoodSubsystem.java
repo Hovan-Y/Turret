@@ -9,4 +9,6 @@ public class HoodSubsystem extends SubsystemBase{
     public void setAngle(double angle){
         servo.setAngle(angle);
     }
+
+    //TODO : Add / Remove as Nessicary (No hood remove all, yes Hood add more)
 }

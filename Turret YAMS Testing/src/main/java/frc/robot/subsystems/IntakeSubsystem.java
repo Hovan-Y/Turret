@@ -35,13 +35,13 @@ public class IntakeSubsystem extends SubsystemBase{
     .withControlMode(ControlMode.OPEN_LOOP)
     .withTelemetry("IntakeMotor", TelemetryVerbosity.HIGH)
     .withGearing(new MechanismGearing(GearBox.fromReductionStages(1))) //TODO : Configure to our robots gearing
-    .withMotorInverted(true)
+    .withMotorInverted(true)//TODO : Make sure this is true/nessicary
     .withIdleMode(MotorMode.COAST)
     .withStatorCurrentLimit(Amps.of(40));
 
     private SmartMotorController smc = new SparkWrapper(intakeMotor, DCMotor.getNeo550(1), intakeSMCConfig);
 
-    private final FlyWheelConfig intakeConfig = new FlyWheelConfig(smc)//Configure to our intakes measurements
+    private final FlyWheelConfig intakeConfig = new FlyWheelConfig(smc)//TODO : Configure to our intakes measurements
     .withDiameter(Inches.of(4))
     .withMass(Pounds.of(0.5))
     .withUpperSoftLimit(RPM.of(6000))

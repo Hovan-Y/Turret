@@ -34,13 +34,13 @@ public class FeederSubsystem extends SubsystemBase{
     .withTelemetry("FeederMotor", TelemetryVerbosity.HIGH)
     .withGearing(new MechanismGearing(GearBox.fromReductionStages(4))) // 4:1 gear reduction TODO: Figure Gear Ratio
     .withMotorInverted(true)
-    .withIdleMode(MotorMode.BRAKE)
+    .withIdleMode(MotorMode.COAST) //TODO : Change Value if Nessicary (Coast/Brake)
     .withStatorCurrentLimit(Amps.of(20));
 
     private SmartMotorController smc = new SparkWrapper(feederMotor, DCMotor.getNeo550(1), smcConfig);
 
     private final FlyWheelConfig feederConfig = new FlyWheelConfig(smc)
-    .withDiameter(Inches.of(4))
+    .withDiameter(Inches.of(4))// TODO : Tune to our robot's built
     .withMass(Pounds.of(0.5))
     .withUpperSoftLimit(RPM.of(6000))
     .withLowerSoftLimit(RPM.of(-6000))

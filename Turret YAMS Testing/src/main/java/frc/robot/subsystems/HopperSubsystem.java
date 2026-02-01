@@ -35,14 +35,14 @@ public class HopperSubsystem extends SubsystemBase{
     .withControlMode(ControlMode.OPEN_LOOP)
     .withTelemetry("HopperMotor", TelemetryVerbosity.HIGH)
     .withGearing(new MechanismGearing(GearBox.fromReductionStages(5))) //5:1 gear Ratio
-    .withMotorInverted(true)
-    .withIdleMode(MotorMode.BRAKE)
+    .withMotorInverted(true)//TODO : Change if Nessicary (Feeding backward)
+    .withIdleMode(MotorMode.BRAKE) //TODO : Change if Nessicary (COAST/BRAKE)
     .withStatorCurrentLimit(Amps.of(40));
 
     private SmartMotorController smc = new SparkWrapper(hopperMotor, DCMotor.getNEO(1), smcConfig);
 
     private final FlyWheelConfig hopperConfig = new FlyWheelConfig(smc)
-    .withDiameter(Inches.of(10))
+    .withDiameter(Inches.of(10))//TODO : Tune these Values to match our robot's build
     .withMass(Pounds.of(0.5))
     .withUpperSoftLimit(RPM.of(6000))
     .withLowerSoftLimit(RPM.of(-6000))

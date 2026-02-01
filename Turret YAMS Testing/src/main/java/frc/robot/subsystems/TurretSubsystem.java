@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.KilogramSquareMeters;
 import static edu.wpi.first.units.Units.Radians;    
 import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Seconds;
@@ -70,9 +71,9 @@ public class TurretSubsystem extends SubsystemBase{
     private SmartMotorController smc = new SparkWrapper(turretMotor, DCMotor.getNeo550(1), smcConfig);
 
     private final PivotConfig turretConfig = new PivotConfig(smc)
-      .withHardLimit(Degrees.of(-MAX_ONE_DIR_FOV - 5), Degrees.of(MAX_ONE_DIR_FOV + 5))
+      .withHardLimit(Degrees.of(-MAX_ONE_DIR_FOV - 5), Degrees.of(MAX_ONE_DIR_FOV + 5))//TODO : Tune values to match our robot's build
       .withStartingPosition(Degrees.of(0))
-      .withMOI(0.05)
+      .withMOI(KilogramSquareMeters.of(0.1))//TODO : Look more in depth into MOI (Moment of Intertia)
       .withTelemetry("Turret", TelemetryVerbosity.HIGH)
       .withMechanismPositionConfig(new MechanismPositionConfig().withMovementPlane(Plane.XY).withRelativePosition(turretTranslation));
 
