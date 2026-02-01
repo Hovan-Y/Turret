@@ -29,7 +29,7 @@ import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
 import yams.motorcontrollers.local.SparkWrapper;
 
 public class HopperSubsystem extends SubsystemBase{
-    private SparkMax hopperMotor = new SparkMax(Constants.HopperConstants.HopperMotorID, MotorType.kBrushless);
+    private SparkMax hopperMotor = new SparkMax(Constants.Hopper.HopperMotorID, MotorType.kBrushless);
 
     private SmartMotorControllerConfig smcConfig = new SmartMotorControllerConfig(this)
     .withControlMode(ControlMode.OPEN_LOOP)
@@ -65,11 +65,11 @@ public class HopperSubsystem extends SubsystemBase{
     }
 
     public Command feed() {
-        return setSpeed(Constants.HopperConstants.speed).finallyDo(() -> stop()).withName("Hopper.Feed");
+        return setSpeed(Constants.Hopper.speed).finallyDo(() -> stop()).withName("Hopper.Feed");
     }
 
     public Command backFeed() {
-        return setSpeed(-Constants.HopperConstants.speed).finallyDo(() -> stop()).withName("Hopper.BackFeed");
+        return setSpeed(-Constants.Hopper.speed).finallyDo(() -> stop()).withName("Hopper.BackFeed");
     }
 
     @Override

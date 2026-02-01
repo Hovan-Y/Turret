@@ -55,7 +55,7 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
-  public static class TurretConstants {
+  public static class Turret {
     public static final int kMotorID = 4;
 
     public static final double kP = 0.02;
@@ -71,35 +71,39 @@ public final class Constants {
     public static final AngularAcceleration MAX_ACCELERATION = DegreesPerSecondPerSecond.of(45);
   }
 
-  public static class ShooterConstants {
+  public static class Shooter {
     public static final int leaderMotor = 51;
     public static final int followerMotor = 52;
 
     public static final double kP = 0.00936;
   }
 
-  public static class HopperConstants {
+  public static class Hopper {
     public static double speed = 30.0; //RPM
 
     public static int HopperMotorID = 1;
   }
 
-  public static class IntakeConstants {
+  public static class Intake {
     public static int IntakeMotorID = 16;
 
     public static double INTAKE_SPEED = 60; //RPM
   }
 
-  public static class FeederConstants {
+  public static class Feeder {
     public static int FeederMotorID = 0;
 
     public static double FEEDER_SPEED = 30.0; //RPM
   }
 
-  public static class PivotConstants {
+  public static class Pivot {
     public static int PivotMotorID = 0;
 
     public static Angle stowAngle = Degrees.of(0);
     public static Angle deployAngle = Degrees.of(150);
+  }
+
+  public static class Swerve {
+    
   }
 }

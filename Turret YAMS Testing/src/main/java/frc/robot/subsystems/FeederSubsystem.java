@@ -27,7 +27,7 @@ import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
 import yams.motorcontrollers.local.SparkWrapper;
 
 public class FeederSubsystem extends SubsystemBase{
-    private SparkMax feederMotor = new SparkMax(Constants.FeederConstants.FeederMotorID, null);
+    private SparkMax feederMotor = new SparkMax(Constants.Feeder.FeederMotorID, null);
     
     private SmartMotorControllerConfig smcConfig = new SmartMotorControllerConfig(this)
     .withControlMode(ControlMode.OPEN_LOOP)
@@ -61,11 +61,11 @@ public class FeederSubsystem extends SubsystemBase{
     }
 
     public Command feed() {
-        return setSpeed(Constants.FeederConstants.FEEDER_SPEED).finallyDo(() -> stop()).withName("Feeder.Feed");
+        return setSpeed(Constants.Feeder.FEEDER_SPEED).finallyDo(() -> stop()).withName("Feeder.Feed");
     }
 
     public Command backFeed() {
-        return feeder.set(-Constants.FeederConstants.FEEDER_SPEED).finallyDo(() -> stop()).withName("Feeder.Backfeed");
+        return feeder.set(-Constants.Feeder.FEEDER_SPEED).finallyDo(() -> stop()).withName("Feeder.Backfeed");
     }
 
     @Override

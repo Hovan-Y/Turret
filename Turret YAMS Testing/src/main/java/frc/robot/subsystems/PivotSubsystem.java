@@ -32,7 +32,7 @@ import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
 import yams.motorcontrollers.local.SparkWrapper;
 
 public class PivotSubsystem extends SubsystemBase{
-    private SparkMax pivotMotor = new SparkMax(Constants.PivotConstants.PivotMotorID, MotorType.kBrushless);
+    private SparkMax pivotMotor = new SparkMax(Constants.Pivot.PivotMotorID, MotorType.kBrushless);
 
     private SmartMotorControllerConfig PivotSMCConfig = new SmartMotorControllerConfig() //TODO : Configure to whatever motor used
     .withControlMode(ControlMode.CLOSED_LOOP)
@@ -75,11 +75,11 @@ public class PivotSubsystem extends SubsystemBase{
     }
 
     public Command deployIntake() {//TODO : Change the Magnitude to match our robot
-        return pivot.setAngle(Constants.PivotConstants.deployAngle);
+        return pivot.setAngle(Constants.Pivot.deployAngle);
     }
 
     public Command stowIntake() {
-        return pivot.setAngle(Constants.PivotConstants.stowAngle);
+        return pivot.setAngle(Constants.Pivot.stowAngle);
     }
 
     @Override

@@ -39,8 +39,8 @@ import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
 import yams.motorcontrollers.local.SparkWrapper;
 
 public class ShooterSubsystem extends SubsystemBase{
-    private final SparkFlex leaderMotor = new SparkFlex(Constants.ShooterConstants.leaderMotor, MotorType.kBrushless);
-    private final SparkFlex followerMotor = new SparkFlex(Constants.ShooterConstants.followerMotor, MotorType.kBrushless);
+    private final SparkFlex leaderMotor = new SparkFlex(Constants.Shooter.leaderMotor, MotorType.kBrushless);
+    private final SparkFlex followerMotor = new SparkFlex(Constants.Shooter.followerMotor, MotorType.kBrushless);
 
     private final SmartMotorControllerConfig smcConfig = new SmartMotorControllerConfig(this)
     .withFollowers(Pair.of(followerMotor, true))

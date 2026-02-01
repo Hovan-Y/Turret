@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
-import frc.robot.Constants.TurretConstants;
+import frc.robot.Constants.Turret;
 
 import org.littletonrobotics.junction.Logger;
 
@@ -43,16 +43,16 @@ public class TurretSubsystem extends SubsystemBase{
     private final double MAX_ONE_DIR_FOV = 135; // degrees TODO Ensure this matches our turret and its limitations
     public final Translation3d turretTranslation = new Translation3d(-0.205, 0.0, 0.375);
 
-    private SparkMax turretMotor = new SparkMax(Constants.TurretConstants.kMotorID, MotorType.kBrushless);
+    private SparkMax turretMotor = new SparkMax(Constants.Turret.kMotorID, MotorType.kBrushless);
 
     private SmartMotorControllerConfig smcConfig = new SmartMotorControllerConfig(this)
     .withControlMode(ControlMode.CLOSED_LOOP)
     // Feedback Constants (PID Constants) TODO : Tune PID Values (Go to Constants)
-    .withClosedLoopController(TurretConstants.kP, TurretConstants.kI, TurretConstants.kD, TurretConstants.MAX_VELOCITY, TurretConstants.MAX_ACCELERATION)
-    .withSimClosedLoopController(TurretConstants.kP, TurretConstants.kI, TurretConstants.kD, TurretConstants.MAX_VELOCITY, TurretConstants.MAX_ACCELERATION)
+    .withClosedLoopController(Turret.kP, Turret.kI, Turret.kD, Turret.MAX_VELOCITY, Turret.MAX_ACCELERATION)
+    .withSimClosedLoopController(Turret.kP, Turret.kI, Turret.kD, Turret.MAX_VELOCITY, Turret.MAX_ACCELERATION)
     // Feedforward Constants TODO : Tune Feedforward Values (Go to Constants)
-    .withFeedforward(new ArmFeedforward(TurretConstants.kS, TurretConstants.kG, TurretConstants.kV, TurretConstants.kA))
-    .withSimFeedforward(new ArmFeedforward(TurretConstants.kS, TurretConstants.kG, TurretConstants.kV, TurretConstants.kA))
+    .withFeedforward(new ArmFeedforward(Turret.kS, Turret.kG, Turret.kV, Turret.kA))
+    .withSimFeedforward(new ArmFeedforward(Turret.kS, Turret.kG, Turret.kV, Turret.kA))
     // Telemetry name and verbosity level
     .withTelemetry("ArmMotor", TelemetryVerbosity.HIGH)
     // Gearing from the motor rotor to final shaft.
