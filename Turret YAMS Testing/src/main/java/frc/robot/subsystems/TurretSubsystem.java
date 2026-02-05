@@ -16,11 +16,13 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.KilogramSquareMeters;
 import static edu.wpi.first.units.Units.Radians;    
 import static edu.wpi.first.units.Units.Second;
@@ -42,9 +44,11 @@ import yams.motorcontrollers.local.SparkWrapper;
 
 public class TurretSubsystem extends SubsystemBase{
     private final double MAX_ONE_DIR_FOV = 135; // degrees TODO Ensure this matches our turret and its limitations
-    public final Translation3d turretTranslation = new Translation3d(-0.205, 0.0, 0.375);
+    public final Translation3d turretTranslation = new Translation3d(-0.205, 0.0, 0.375); // TODO : If needed Tune this
 
     private SparkMax turretMotor = new SparkMax(Constants.Turret.kMotorID, MotorType.kBrushless);
+    public DigitalInput MaxSensor = new DigitalInput(Constants.Turret.kMaxSensorID);
+    public DigitalInput MinSensor = new DigitalInput(Constants.Turret.kMinSensorID);
 
     private SmartMotorControllerConfig smcConfig = new SmartMotorControllerConfig(this)
     .withControlMode(ControlMode.CLOSED_LOOP)
@@ -55,7 +59,7 @@ public class TurretSubsystem extends SubsystemBase{
     .withFeedforward(new ArmFeedforward(Turret.kS, Turret.kG, Turret.kV, Turret.kA))
     .withSimFeedforward(new ArmFeedforward(Turret.kS, Turret.kG, Turret.kV, Turret.kA))
     // Telemetry name and verbosity level
-    .withTelemetry("ArmMotor", TelemetryVerbosity.HIGH)
+    .withTelemetry("Turret Motor", TelemetryVerbosity.HIGH)
     // Gearing from the motor rotor to final shaft.
     // In this example GearBox.fromReductionStages(3,4) is the same as GearBox.fromStages("3:1","4:1") which corresponds to the gearbox attached to your motor.
     // You could also use .withGearing(12) which does the same thing.
@@ -75,11 +79,19 @@ public class TurretSubsystem extends SubsystemBase{
       .withStartingPosition(Degrees.of(0))
       .withMOI(KilogramSquareMeters.of(0.1))//TODO : Look more in depth into MOI (Moment of Intertia)
       .withTelemetry("Turret", TelemetryVerbosity.HIGH)
-      .withMechanismPositionConfig(new MechanismPositionConfig().withMovementPlane(Plane.XY).withRelativePosition(turretTranslation));
+      .withMechanismPositionConfig(new MechanismPositionConfig().withMovementPlane(Plane.XY).withRelativePosition(turretTranslation));//TODO : Check What this does
 
     private Pivot turret = new Pivot(turretConfig);
 
     public TurretSubsystem(){}
+
+    public void getMaxValue() {
+        MaxSensor.get();
+    }
+
+    public void getMinValue(){
+        MinSensor.get();
+    }
 
     public Command setAngle(Angle angle) {
         return turret.setAngle(angle);
@@ -87,10 +99,6 @@ public class TurretSubsystem extends SubsystemBase{
 
     public Command setAngleDynamic(Supplier<Angle> turretAngleSupplier) {
         return turret.setAngle(turretAngleSupplier);
-    }
-
-    public Command center() {
-        return turret.setAngle(Degrees.of(0));
     }
 
     public Angle getRobotAdjustedAngle() {
@@ -103,12 +111,20 @@ public class TurretSubsystem extends SubsystemBase{
         return turret.getAngle();
     }
 
-    public Command set(double dutyCycle) {
+    public Command setDutyCycle(double dutyCycle) {
         return turret.set(dutyCycle);
     }
 
     public Command stop() {
         return turret.set(0);
+    }
+
+    public Command stow() {
+        return turret.setAngle(Constants.Turret.STOW_ANGLE);
+    }
+
+    public Command center() {
+        return turret.setAngle(Degrees.of(0));
     }
 
     public Command sysId() {
