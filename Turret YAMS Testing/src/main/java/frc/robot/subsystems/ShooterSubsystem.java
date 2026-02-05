@@ -71,6 +71,10 @@ public class ShooterSubsystem extends SubsystemBase{
 
     public ShooterSubsystem() {}
 
+    public AngularVelocity getSpeed() {
+        return shooter.getSpeed();
+    }
+
     public Command setSpeed(AngularVelocity speed) {
         return shooter.setSpeed(speed);
     }
@@ -79,16 +83,12 @@ public class ShooterSubsystem extends SubsystemBase{
         return shooter.setSpeed(speedSupplier);
     }
 
+    public Command stop() {
+        return shooter.set(0);
+    }
+
     public Command spinUp() {
         return setSpeed(RPM.of(5500));
-    }
-
-    public Command stop() {
-        return setSpeed(RPM.of(0));
-    }
-
-    public AngularVelocity getSpeed() {
-        return shooter.getSpeed();
     }
 
     public Command sysId() {

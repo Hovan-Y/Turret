@@ -58,8 +58,8 @@ public class PivotSubsystem extends SubsystemBase{
     .withSoftLimits(Degrees.of(0), Degrees.of(150))
     .withHardLimit(Degrees.of(0), Degrees.of(155))
     .withStartingPosition(Degrees.of(0))//Should match our Stow Position
-    .withLength(Feet.of(1)) //TODO : Tune Values to match our robot's build
-    .withMass(Pounds.of(2)) 
+    .withLength(Constants.Pivot.kLength) //TODO : Tune Values to match our robot's build (Go to Constants)
+    .withMass(Constants.Pivot.kMass) 
     .withTelemetry("Pivot", TelemetryVerbosity.HIGH);
 
     private Arm pivot = new Arm(pivotConfig);

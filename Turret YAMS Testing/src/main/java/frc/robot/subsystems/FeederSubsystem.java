@@ -48,8 +48,8 @@ public class FeederSubsystem extends SubsystemBase{
 
     private FlyWheel feeder = new FlyWheel(feederConfig);
 
-    public Command setSpeed(double rpm) {
-        return feeder.setSpeed(RPM.of(rpm));
+    public Command setSpeed(AngularVelocity speed) {
+        return feeder.setSpeed(speed);
     }
 
     public Command setSpeedDynamic(Supplier<AngularVelocity> speed) {
@@ -61,11 +61,11 @@ public class FeederSubsystem extends SubsystemBase{
     }
 
     public Command feed() {
-        return setSpeed(Constants.Feeder.FEEDER_SPEED).finallyDo(() -> stop()).withName("Feeder.Feed");
+        return setSpeed(Constants.Feeder.FEED_SPEED).finallyDo(() -> stop()).withName("Feeder.Feed");
     }
 
     public Command backFeed() {
-        return feeder.set(-Constants.Feeder.FEEDER_SPEED).finallyDo(() -> stop()).withName("Feeder.Backfeed");
+        return setSpeed(Constants.Feeder.BACK_SPEED).finallyDo(() -> stop()).withName("Feeder.Backfeed");
     }
 
     @Override

@@ -7,11 +7,16 @@ package frc.robot;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.DegreesPerSecond;
 import static edu.wpi.first.units.Units.DegreesPerSecondPerSecond;
+import static edu.wpi.first.units.Units.Feet;
+import static edu.wpi.first.units.Units.Pounds;
+import static edu.wpi.first.units.Units.RPM;
 
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularAcceleration;
 import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Distance;
+import edu.wpi.first.units.measure.Mass;
 import edu.wpi.first.wpilibj.DriverStation;
 
 /**
@@ -57,6 +62,8 @@ public final class Constants {
 
   public static class Turret {
     public static final int kMotorID = 4;
+    public static final int kMaxSensorID = 0;
+    public static final int kMinSensorID = 0;
 
     public static final double kP = 0.02;
     public static final double kI = 0.0;
@@ -69,6 +76,8 @@ public final class Constants {
 
     public static final AngularVelocity MAX_VELOCITY = DegreesPerSecond.of(90);
     public static final AngularAcceleration MAX_ACCELERATION = DegreesPerSecondPerSecond.of(45);
+
+    public static final Angle STOW_ANGLE = Degrees.of(0);
   }
 
   public static class Shooter {
@@ -93,11 +102,15 @@ public final class Constants {
   public static class Feeder {
     public static int FeederMotorID = 0;
 
-    public static double FEEDER_SPEED = 30.0; //RPM
+    public static AngularVelocity FEED_SPEED = RPM.of(30);
+    public static AngularVelocity BACK_SPEED = RPM.of(-30);
   }
 
   public static class Pivot {
     public static int PivotMotorID = 0;
+
+    public static Distance kLength = Feet.of(1);
+    public static Mass kMass = Pounds.of(2);
 
     public static Angle stowAngle = Degrees.of(0);
     public static Angle deployAngle = Degrees.of(150);
