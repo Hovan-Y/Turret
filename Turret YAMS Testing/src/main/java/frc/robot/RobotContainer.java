@@ -54,10 +54,6 @@ public class RobotContainer {
   private void configureBindings() {
     driver.a().whileTrue(intake.intake());
     driver.leftTrigger().onTrue(superstructure.deployAndStartIntake());
-
-    driver.povLeft().onTrue(superstructure.setTurretLeft());
-    driver.povUp().onTrue(superstructure.setTurretForward());
-    driver.povRight().onTrue(superstructure.setTurretRight());
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

@@ -3,6 +3,8 @@ package frc.robot.subsystems;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.RPM;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -53,16 +55,28 @@ public class Superstructure extends SubsystemBase {
         this.isReadyToShoot = isShooterAtSpeed.and(isTurretOnTarget);
     }
 
-    public Command setTurretForward() {
-        return turret.setAngle(Degrees.of(0)).withName("Superstructure.setTurretForward");
+    public AngularVelocity getShooterSpeed() {
+        return shooter.getSpeed();
     }
 
-    public Command setTurretLeft() {
-        return turret.setAngle(Degrees.of(45)).withName("Superstructure.setTurretLeft");
+    public Angle getTurretAngle() {
+        return turret.getRawAngle();
     }
 
-    public Command setTurretRight() {
-        return turret.setAngle(Degrees.of(-45)).withName("Superstructure.setTurretRight");
+    public AngularVelocity getTargetShooterSpeed() {
+        return targetShooterSpeed;
+    }
+
+    public Angle getTargetTurretAngle() {
+        return targetTurretAngle;
+    }
+    
+    public Translation3d getAimPoint() {
+        return aimPoint;
+    }
+
+    public void setAimPoint(Translation3d newAimPoint) {
+        this.aimPoint = newAimPoint;
     }
 
     public Command startIntake() {
@@ -71,6 +85,10 @@ public class Superstructure extends SubsystemBase {
 
     public Command stopIntake() {
         return intake.stop().withName("Superstructure.stopIntake");
+    }
+
+    public Command waitUntilReadyCommand() {
+        return Commands.waitUntil(isReadyToShoot).withName("Superstructure.waitUntilReady");
     }
 
     public Command stopAllCommand() {
@@ -123,11 +141,37 @@ public class Superstructure extends SubsystemBase {
 
     public Command deployAndStartIntake() {
         return Commands.sequence(
+            turret.stow(),
             pivot.deployIntake(),
             intake.intake()
         ).withName("SuperStructure.deployAndStartIntake");
     }
 
+    public Command aimCommand(AngularVelocity shooterSpeed, Angle turretAngle) {
+        return Commands.parallel(
+            shooter.setSpeed(shooterSpeed).asProxy(),
+            turret.setAngle(turretAngle).asProxy())
+            .withName("Superstructure.aim");
+    }
 
+    public Command aimDynamicCommand(Supplier<AngularVelocity> shooterSpeedSupplier, Supplier<Angle> turretAngleSupplier) {
+        return Commands.parallel(
+            shooter.setSpeedDynamic(shooterSpeedSupplier).asProxy(),
+            turret.setAngleDynamic(turretAngleSupplier).asProxy())
+            .withName("Superstructure.aimDynamic");
+    }
+
+    public Command aimAndWaitCommand(AngularVelocity shooterSpeed, Angle turretAngle) {
+        return aimDynamicCommand(() -> shooterSpeed, () -> turretAngle)
+            .andThen(waitUntilReadyCommand())
+            .withName("Superstructure.aimAndWait");
+    }
+    
+    public Command shootCommand(AngularVelocity shooterSpeed, Angle turretAngle) {
+        return Commands.sequence(
+            aimAndWaitCommand(shooterSpeed, turretAngle),
+            feedAllCommand()
+        );
+    }
     //TODO : ADD MORE COMMANDS
 }
