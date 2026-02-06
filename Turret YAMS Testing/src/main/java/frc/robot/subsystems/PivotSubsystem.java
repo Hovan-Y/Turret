@@ -4,17 +4,13 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Degrees;
-import static edu.wpi.first.units.Units.DegreesPerSecond;
-import static edu.wpi.first.units.Units.DegreesPerSecondPerSecond;
-import static edu.wpi.first.units.Units.Feet;
-import static edu.wpi.first.units.Units.Pounds;
 import static edu.wpi.first.units.Units.Seconds;
 
 import java.util.function.Supplier;
 
 import com.revrobotics.spark.SparkMax;
 
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -37,11 +33,11 @@ public class PivotSubsystem extends SubsystemBase{
     private SmartMotorControllerConfig PivotSMCConfig = new SmartMotorControllerConfig() //TODO : Configure to whatever motor used
     .withControlMode(ControlMode.CLOSED_LOOP)
     //Feedback Constants (PID) TODO : Tune these values and move them to Constants
-    .withClosedLoopController(25, 0, 0, DegreesPerSecond.of(360), DegreesPerSecondPerSecond.of(360))
-    .withSimClosedLoopController(25, 0, 0, DegreesPerSecond.of(360), DegreesPerSecondPerSecond.of(360))
+    .withClosedLoopController(Constants.Pivot.kP, Constants.Pivot.kI, Constants.Pivot.kD, Constants.Pivot.MAX_VELOCITY, Constants.Pivot.MAX_ACCELERATION)
+    .withSimClosedLoopController(Constants.Pivot.kP, Constants.Pivot.kI, Constants.Pivot.kD, Constants.Pivot.MAX_VELOCITY, Constants.Pivot.MAX_ACCELERATION)
     //Feedforward Constants TODO : Tune these values and move them to Constants
-    .withFeedforward(new SimpleMotorFeedforward(0, 10, 0))
-    .withSimFeedforward(new SimpleMotorFeedforward(0, 0, 0))
+    .withFeedforward(new ArmFeedforward(Constants.Pivot.kS, Constants.Pivot.kG, Constants.Pivot.kV, Constants.Pivot.kA))
+    .withSimFeedforward(new ArmFeedforward(Constants.Pivot.kS, Constants.Pivot.kG, Constants.Pivot.kV, Constants.Pivot.kA))
     .withTelemetry("PivotMotor", TelemetryVerbosity.HIGH)
     //Gearing TODO : Change Values to match our robots
     .withGearing(new MechanismGearing(GearBox.fromReductionStages(5, 5, 60.0 / 18.0)))
@@ -74,7 +70,7 @@ public class PivotSubsystem extends SubsystemBase{
         return pivot.setAngle(angleSupplier).withName("Pivot.SetAngleDynamic");
     }
 
-    public Command deployIntake() {//TODO : Change the Magnitude to match our robot
+    public Command deployIntake() {//TODO : Change the Magnitude to match our robot (Go to Constants)
         return pivot.setAngle(Constants.Pivot.deployAngle);
     }
 

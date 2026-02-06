@@ -22,7 +22,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Degrees;
-import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.KilogramSquareMeters;
 import static edu.wpi.first.units.Units.Radians;    
 import static edu.wpi.first.units.Units.Second;
@@ -102,9 +101,7 @@ public class TurretSubsystem extends SubsystemBase{
     }
 
     public Angle getRobotAdjustedAngle() {
-        // Returns the turret angle in the robot's coordinate frame
-        // since the turret is mounted backwards, we need to add 180 degrees
-        return turret.getAngle().plus(Degrees.of(180));
+        return turret.getAngle();//If attached at an angle, change the magnitude 
     }
 
     public Angle getRawAngle() {

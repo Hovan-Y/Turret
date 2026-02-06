@@ -18,6 +18,7 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.Mass;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotBase;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -107,7 +108,19 @@ public final class Constants {
   }
 
   public static class Pivot {
-    public static int PivotMotorID = 0;
+    public static final int PivotMotorID = 0;
+
+    public static final double kP = 0.02;
+    public static final double kI = 0.0;
+    public static final double kD = 0.0;
+
+    public static final double kS = 0.0;
+    public static final double kG = 0.0;
+    public static final double kV = 0.0;
+    public static final double kA = 0.0;
+
+    public static final AngularVelocity MAX_VELOCITY = DegreesPerSecond.of(90);
+    public static final AngularAcceleration MAX_ACCELERATION = DegreesPerSecondPerSecond.of(45);
 
     public static Distance kLength = Feet.of(1);
     public static Mass kMass = Pounds.of(2);
@@ -118,5 +131,19 @@ public final class Constants {
 
   public static class Swerve {
     
+  }
+
+  public static final Mode simMode = Mode.SIM;
+  public static final Mode currentMode = RobotBase.isReal() ? Mode.REAL : simMode;
+
+  public static enum Mode {
+    /** Running on a real robot. */
+    REAL,
+
+    /** Running a physics simulator. */
+    SIM,
+
+    /** Replaying from a log file. */
+    REPLAY
   }
 }
