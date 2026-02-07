@@ -22,7 +22,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Degrees;
-import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.KilogramSquareMeters;
 import static edu.wpi.first.units.Units.Radians;    
 import static edu.wpi.first.units.Units.Second;
@@ -46,7 +45,7 @@ public class TurretSubsystem extends SubsystemBase{
     private final double MAX_ONE_DIR_FOV = 135; // degrees TODO Ensure this matches our turret and its limitations
     public final Translation3d turretTranslation = new Translation3d(-0.205, 0.0, 0.375); // TODO : If needed Tune this
 
-    private SparkMax turretMotor = new SparkMax(Constants.Turret.kMotorID, MotorType.kBrushless);
+    private SparkMax turretMotor = new SparkMax(Constants.MotorID.Turret, MotorType.kBrushless);
     public DigitalInput MaxSensor = new DigitalInput(Constants.Turret.kMaxSensorID);
     public DigitalInput MinSensor = new DigitalInput(Constants.Turret.kMinSensorID);
 

@@ -9,6 +9,7 @@ import static edu.wpi.first.units.Units.RPM;
 import java.util.function.Supplier;
 
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -27,7 +28,7 @@ import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
 import yams.motorcontrollers.local.SparkWrapper;
 
 public class FeederSubsystem extends SubsystemBase{
-    private SparkMax feederMotor = new SparkMax(Constants.Feeder.FeederMotorID, null);
+    private SparkMax feederMotor = new SparkMax(Constants.MotorID.Feeder, MotorType.kBrushless);
     
     private SmartMotorControllerConfig smcConfig = new SmartMotorControllerConfig(this)
     .withControlMode(ControlMode.OPEN_LOOP)

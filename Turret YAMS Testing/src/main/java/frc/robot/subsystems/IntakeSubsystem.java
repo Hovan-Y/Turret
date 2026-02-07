@@ -29,7 +29,7 @@ import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
 import yams.motorcontrollers.local.SparkWrapper;
 
 public class IntakeSubsystem extends SubsystemBase{
-    private SparkMax intakeMotor = new SparkMax(Constants.Intake.IntakeMotorID, MotorType.kBrushless);
+    private SparkMax intakeMotor = new SparkMax(Constants.MotorID.Intake, MotorType.kBrushless);
 
     private SmartMotorControllerConfig intakeSMCConfig = new SmartMotorControllerConfig(this)
     .withControlMode(ControlMode.OPEN_LOOP)

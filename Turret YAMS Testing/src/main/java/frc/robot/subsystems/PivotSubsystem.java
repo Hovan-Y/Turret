@@ -6,8 +6,6 @@ import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.DegreesPerSecond;
 import static edu.wpi.first.units.Units.DegreesPerSecondPerSecond;
-import static edu.wpi.first.units.Units.Feet;
-import static edu.wpi.first.units.Units.Pounds;
 import static edu.wpi.first.units.Units.Seconds;
 
 import java.util.function.Supplier;
@@ -18,6 +16,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import yams.gearing.GearBox;
@@ -32,7 +31,7 @@ import yams.motorcontrollers.SmartMotorControllerConfig.TelemetryVerbosity;
 import yams.motorcontrollers.local.SparkWrapper;
 
 public class PivotSubsystem extends SubsystemBase{
-    private SparkMax pivotMotor = new SparkMax(Constants.Pivot.PivotMotorID, MotorType.kBrushless);
+    private SparkMax pivotMotor = new SparkMax(Constants.MotorID.Pivot, MotorType.kBrushless);
 
     private SmartMotorControllerConfig PivotSMCConfig = new SmartMotorControllerConfig() //TODO : Configure to whatever motor used
     .withControlMode(ControlMode.CLOSED_LOOP)

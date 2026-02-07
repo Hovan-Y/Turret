@@ -94,7 +94,7 @@ public final class Constants {
   }
 
   public static class Intake {
-    public static int IntakeMotorID = 16;
+    public static int IntakeMotorID = 4;
 
     public static double INTAKE_SPEED = 60; //RPM
   }
@@ -107,7 +107,7 @@ public final class Constants {
   }
 
   public static class Pivot {
-    public static int PivotMotorID = 0;
+    public static int PivotMotorID = 8;
 
     public static Distance kLength = Feet.of(1);
     public static Mass kMass = Pounds.of(2);
@@ -118,5 +118,15 @@ public final class Constants {
 
   public static class Swerve {
     
+  }
+
+  public static class MotorID {
+    public static int Feeder = 10;
+    public static int Hopper = 12;
+    public static int Intake = 13;
+    public static int Pivot = 14;
+    public static int ShooterLeader = 15;
+    public static int ShooterFollower = 16;
+    public static int Turret = 17;
   }
 }
