@@ -57,13 +57,12 @@ public class RobotContainer {
     // driver.povDown().whileTrue(YAMgenturretSubsystem.stickRotation());
     // driver.a().onTrue(YAMgenturretSubsystem.setAngleCommand(90));
 
-    driver.a().whileTrue(
+    driver.y().whileTrue(
       superstructure.stopAllCommand()
     );
-
-    driver.povUp().onTrue(superstructure.setTurretForward().withName("OperatorControls.setTurretForward"));
-    driver.povLeft().onTrue(superstructure.setTurretLeft().withName("OperatorControls.setTurretLeft"));
-    driver.povRight().onTrue(superstructure.setTurretRight().withName("OperatorControls.setTurretRight"));
+    driver.a().onTrue(superstructure.setTurretForward().withName("Driver.setTurretForward"));
+    driver.b().onTrue(superstructure.setTurretLeft().withName("Driver.setTurretLeft"));
+    driver.x().onTrue(superstructure.setTurretRight().withName("Driver.setTurretRight"));
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

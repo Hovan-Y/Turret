@@ -54,17 +54,17 @@ public final class Constants {
   }
 
   public static class TurretConstants {
-    public static final int kMotorID = 4;
+    public static final int kMotorID = 16;
 
     public static final double kP = 50.0;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
 
     public static final double kS = 0.0;
-    public static final double kG = 0.0;
     public static final double kV = 0.0;
+    public static final double kA = 0.0;
 
-    public static final AngularVelocity MAX_VELOCITY = DegreesPerSecond.of(90);
-    public static final AngularAcceleration MAX_ACCELERATION = DegreesPerSecondPerSecond.of(45);
+    public static final double MAX_VELOCITY = 90;
+    public static final double MAX_ACCELERATION = 45;
   }
 }
