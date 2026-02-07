@@ -15,17 +15,13 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Degrees;
-import static edu.wpi.first.units.Units.DegreesPerSecond;
-import static edu.wpi.first.units.Units.DegreesPerSecondPerSecond;
+import static edu.wpi.first.units.Units.KilogramSquareMeters;
 import static edu.wpi.first.units.Units.Radians;    
 import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Seconds;
@@ -63,7 +59,7 @@ public class TurretSubsystem extends SubsystemBase{
     // Gearing from the motor rotor to final shaft.
     // In this example GearBox.fromReductionStages(3,4) is the same as GearBox.fromStages("3:1","4:1") which corresponds to the gearbox attached to your motor.
     // You could also use .withGearing(12) which does the same thing.
-    .withGearing(new MechanismGearing(GearBox.fromReductionStages(3, 4)))
+    .withGearing(new MechanismGearing(GearBox.fromReductionStages(10.75)))
     // Motor properties to prevent over currenting.
     .withMotorInverted(false)
     .withIdleMode(MotorMode.BRAKE)
@@ -76,7 +72,7 @@ public class TurretSubsystem extends SubsystemBase{
     private final PivotConfig turretConfig = new PivotConfig(smc)
       .withHardLimit(Degrees.of(-MAX_ONE_DIR_FOV - 5), Degrees.of(MAX_ONE_DIR_FOV + 5))
       .withStartingPosition(Degrees.of(0))
-      .withMOI(0.05)
+      .withMOI(KilogramSquareMeters.of(0.1))
       .withTelemetry("Turret", TelemetryVerbosity.HIGH)
       .withMechanismPositionConfig(
           new MechanismPositionConfig().withMovementPlane(Plane.XY).withRelativePosition(turretTranslation));
