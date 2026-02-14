@@ -28,33 +28,33 @@ import edu.wpi.first.wpilibj.DriverStation;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-   public static enum AimPoints {
-    RED_HUB(new Translation3d(11.938, 4.034536, 1.5748)),
-    RED_OUTPOST(new Translation3d(15.75, 7.25, 0)),
-    RED_FAR_SIDE(new Translation3d(15.75, 0.75, 0)),
+  //  public static enum AimPoints {
+  //   RED_HUB(new Translation3d(11.938, 4.034536, 1.5748)),
+  //   RED_OUTPOST(new Translation3d(15.75, 7.25, 0)),
+  //   RED_FAR_SIDE(new Translation3d(15.75, 0.75, 0)),
 
-    BLUE_HUB(new Translation3d(4.5974, 4.034536, 1.5748)),
-    BLUE_OUTPOST(new Translation3d(0.75, 0.75, 0)),
-    BLUE_FAR_SIDE(new Translation3d(0.75, 7.25, 0));
+  //   BLUE_HUB(new Translation3d(4.5974, 4.034536, 1.5748)),
+  //   BLUE_OUTPOST(new Translation3d(0.75, 0.75, 0)),
+  //   BLUE_FAR_SIDE(new Translation3d(0.75, 7.25, 0));
 
-    public final Translation3d value;
+  //   public final Translation3d value;
 
-    private AimPoints(Translation3d value) {
-      this.value = value;
-    }
+  //   private AimPoints(Translation3d value) {
+  //     this.value = value;
+  //   }
 
-    public static final Translation3d getAllianceHubPosition() {
-      return DriverStation.getAlliance().get() == DriverStation.Alliance.Red ? RED_HUB.value : BLUE_HUB.value;
-    }
+  //   public static final Translation3d getAllianceHubPosition() {
+  //     return DriverStation.getAlliance().get() == DriverStation.Alliance.Red ? RED_HUB.value : BLUE_HUB.value;
+  //   }
 
-    public static final Translation3d getAllianceOutpostPosition() {
-      return DriverStation.getAlliance().get() == DriverStation.Alliance.Red ? RED_OUTPOST.value : BLUE_OUTPOST.value;
-    }
+  //   public static final Translation3d getAllianceOutpostPosition() {
+  //     return DriverStation.getAlliance().get() == DriverStation.Alliance.Red ? RED_OUTPOST.value : BLUE_OUTPOST.value;
+  //   }
 
-    public static final Translation3d getAllianceFarSidePosition() {
-      return DriverStation.getAlliance().get() == DriverStation.Alliance.Red ? RED_FAR_SIDE.value : BLUE_FAR_SIDE.value;
-    }
-  }
+  //   public static final Translation3d getAllianceFarSidePosition() {
+  //     return DriverStation.getAlliance().get() == DriverStation.Alliance.Red ? RED_FAR_SIDE.value : BLUE_FAR_SIDE.value;
+  //   }
+  // }
 
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
@@ -63,7 +63,7 @@ public final class Constants {
   public static class Turret {
     public static final int kMotorID = 4;
     public static final int kMaxSensorID = 0;
-    public static final int kMinSensorID = 0;
+    public static final int kMinSensorID = 1;
 
     public static final double kP = 0.02;
     public static final double kI = 0.0;

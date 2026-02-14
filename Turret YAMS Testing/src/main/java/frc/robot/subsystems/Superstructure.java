@@ -18,7 +18,6 @@ public class Superstructure extends SubsystemBase {
     public final FeederSubsystem feeder;
     public final HopperSubsystem hopper;
     public final IntakeSubsystem intake;
-    public final PivotSubsystem pivot;
     public final ShooterSubsystem shooter;
     public final TurretSubsystem turret;
 
@@ -34,13 +33,12 @@ public class Superstructure extends SubsystemBase {
     private AngularVelocity targetShooterSpeed = RPM.of(0);
     private Angle targetTurretAngle = Degrees.of(0);
 
-    private Translation3d aimPoint = Constants.AimPoints.getAllianceHubPosition();
+    // private Translation3d aimPoint = Constants.AimPoints.getAllianceHubPosition();
 
-    public Superstructure(FeederSubsystem feeder, HopperSubsystem hopper, IntakeSubsystem intake, PivotSubsystem pivot, ShooterSubsystem shooter, TurretSubsystem turret) {
+    public Superstructure(FeederSubsystem feeder, HopperSubsystem hopper, IntakeSubsystem intake, ShooterSubsystem shooter, TurretSubsystem turret) {
         this.feeder = feeder;
         this.intake = intake;
         this.hopper = hopper;
-        this.pivot = pivot;
         this.shooter = shooter;
         this.turret = turret;
 
@@ -71,13 +69,13 @@ public class Superstructure extends SubsystemBase {
         return targetTurretAngle;
     }
     
-    public Translation3d getAimPoint() {
-        return aimPoint;
-    }
+    // public Translation3d getAimPoint() {
+    //     return aimPoint;
+    // }
 
-    public void setAimPoint(Translation3d newAimPoint) {
-        this.aimPoint = newAimPoint;
-    }
+    // public void setAimPoint(Translation3d newAimPoint) {
+    //     this.aimPoint = newAimPoint;
+    // }
 
     public Command startIntake() {
         return intake.intake().withName("Superstructure.startIntake");
@@ -132,21 +130,6 @@ public class Superstructure extends SubsystemBase {
         ).withName("Superstructure.backFeedAll");
     }
 
-    public Command stopAndStowIntake() {
-        return Commands.sequence(
-            intake.stop(),
-            pivot.stowIntake()
-        ).withName("Superstructure.stopAndStowIntake");
-    }
-
-    public Command deployAndStartIntake() {
-        return Commands.sequence(
-            turret.stow(),
-            pivot.deployIntake(),
-            intake.intake()
-        ).withName("SuperStructure.deployAndStartIntake");
-    }
-
     public Command aimCommand(AngularVelocity shooterSpeed, Angle turretAngle) {
         return Commands.parallel(
             shooter.setSpeed(shooterSpeed).asProxy(),
@@ -172,6 +155,18 @@ public class Superstructure extends SubsystemBase {
             aimAndWaitCommand(shooterSpeed, turretAngle),
             feedAllCommand()
         );
+    }
+
+    public Command setTurretForward() {
+        return turret.setAngle(Degrees.of(0)).withName("Superstructure.setTurretForward");
+    }
+
+    public Command setTurretLeft() {
+        return turret.setAngle(Degrees.of(45)).withName("Superstructure.setTurretLeft");
+    }
+
+    public Command setTurretRight() {
+        return turret.setAngle(Degrees.of(-45)).withName("Superstructure.setTurretRight");
     }
     //TODO : ADD MORE COMMANDS
 }

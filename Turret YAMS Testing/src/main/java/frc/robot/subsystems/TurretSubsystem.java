@@ -18,6 +18,7 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static edu.wpi.first.units.Units.Amps;
@@ -84,12 +85,12 @@ public class TurretSubsystem extends SubsystemBase{
 
     public TurretSubsystem(){}
 
-    public void getMaxValue() {
-        MaxSensor.get();
+    public boolean getMaxValue() {
+        return MaxSensor.get();
     }
 
-    public void getMinValue(){
-        MinSensor.get();
+    public boolean getMinValue(){
+        return MinSensor.get();
     }
 
     public Command setAngle(Angle angle) {
@@ -128,6 +129,10 @@ public class TurretSubsystem extends SubsystemBase{
 
     public Command sysId() {
         return turret.sysId(Volts.of(7), Volts.of(2).per(Second), Seconds.of(10));
+    }
+
+    public Command rezero() {
+        return Commands.runOnce(() -> turretMotor.getEncoder().setPosition(0), this).withName("Turret.Rezero");
     }
 
     @Override
