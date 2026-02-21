@@ -77,10 +77,6 @@ public class Superstructure extends SubsystemBase {
     //     this.aimPoint = newAimPoint;
     // }
 
-    public Command startIntake() {
-        return intake.intake().withName("Superstructure.startIntake");
-    }
-
     public Command stopIntake() {
         return intake.stop().withName("Superstructure.stopIntake");
     }
@@ -125,8 +121,7 @@ public class Superstructure extends SubsystemBase {
     public Command backfeedAllCommand() {
         return Commands.parallel(
             feeder.backFeed().asProxy(),
-            hopper.backFeed().asProxy(),
-            intake.eject().asProxy()
+            hopper.backFeed().asProxy()
         ).withName("Superstructure.backFeedAll");
     }
 
@@ -169,4 +164,8 @@ public class Superstructure extends SubsystemBase {
         return turret.setAngle(Degrees.of(-45)).withName("Superstructure.setTurretRight");
     }
     //TODO : ADD MORE COMMANDS
+
+    public Command SpinUpFeeder() {
+        return feeder.feed();
+    }
 }
